@@ -1,8 +1,13 @@
 import express from 'express'
 import cors from 'cors'
-import dotenv from 'dotenv';
 import mysql from 'mysql2';
+import dotenv from 'dotenv';
+import Query from 'mysql2/typings/mysql/lib/protocol/sequences/Query';
 dotenv.config();
+
+type obj = {
+    [key: string]: any;
+};
 
 class app {
     public express: express.Application
@@ -14,7 +19,6 @@ class app {
 
         this.middlewares()
         this.routes()
-        
     }
     private middlewares() {
         this.express.use(express.json())
@@ -35,12 +39,42 @@ class app {
         });
         return connection;
     }
+    private mysqlQueryInsert(tableName: string, params: obj): void {
+        let column: string = '';
+        let value: string = '';
+        for (const key in params) {
+            column += `${key},`;
+            value += `'${params[key]}',`;
+        }
+
+        column = column.slice(0, -1);
+        value = value.slice(0, -1);
+
+        const queryString = `
+              INSERT INTO ${tableName.toLocaleUpperCase()}
+              (${column})
+              VALUES
+              (${value});`;
+        const insert = this.db.query(queryString, (err, results, fields) => {
+            if (err) return console.log(err);
+            return console.log(`Valores inseridos na tabela ${tableName}`);
+        })
+    }
     private routes(): void {
         this.express.post('/', (req, res) => {
+
+            const tableName: string = req.body.tableName as string
+            const params: obj = req.body.params as obj
+            console.log(tableName, params)
+
+            this.mysqlQueryInsert(tableName, params)
+
             return res.send('hello')
-        }
-        )
-        this.express.listen(3333)
+
+        })
+        this.express.get('/', (req, res) => {
+            return res.send('hello')
+        })
     }
 }
 
