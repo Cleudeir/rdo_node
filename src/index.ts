@@ -8,12 +8,12 @@ server.post('/db/insert', async (req, res) => {
     const tableName: string = req.body.tableName as string
     const params: obj = req.body.params as obj
 
-    const result = await db.mysqlInsert(tableName, params)
+    const result = await db.insert(tableName, params)
     return res.send(result)
 })
 server.post('/db/read', async (req, res) => {
     const tableName: string = req.body.tableName as string
     const filter: obj = req.body.params as obj
-    const result = await db.mysqlRead(tableName, filter)
+    const result = await db.read(tableName, filter)
     return res.send(result)
 })

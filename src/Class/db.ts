@@ -21,14 +21,14 @@ class db {
         });
         try {
             await connection.connect();
-            console.log("conectado")
+            console.log("conectado ao banco de dados")
             return connection;
         } catch (error) {
             console.log(error)
             return error;
         }
     }
-    public async mysqlInsert(tableName: string, params: obj): Promise<obj> {
+    public async insert(tableName: string, params: obj): Promise<obj> {
         let column: string = '';
         let value: string = '';
         for (const key in params) {
@@ -51,7 +51,7 @@ class db {
             return error
         }
     }
-    public async mysqlRead(tableName: string, filter?: obj): Promise<obj> {
+    public async read(tableName: string, filter?: obj): Promise<obj> {
         let where: string = '';
         if (filter !== undefined) {
             for (const key in filter) {
