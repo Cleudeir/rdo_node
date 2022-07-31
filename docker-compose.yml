@@ -1,12 +1,11 @@
 version: '3.1'
 services:
   db:
-    image: mysql
-    restart: always
+    image: mysql:8.0.30
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: mydb
     ports:
       - "3306:3306"
     volumes:
-      - $HOME/MySQL/school.sql:/school.sql
+      - ./mysql:/var/lib/mysql

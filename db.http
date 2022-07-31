@@ -1,0 +1,79 @@
+POST http://192.168.1.10:3333/db/insert
+content-type: application/json
+
+{
+    "tableName": "EMPRESAS",
+    "params": {
+        "nomeFantasia": "Alterosa",
+        "cnpj": "31.107.606/0001-54",
+        "razaoSocial": "Alterosa",
+        "nomeResponsavel": "nomeResponsavel",
+        "telefoneFixo": "(21)99852-8453"
+        }
+}
+
+###
+POST http://192.168.1.10:3333/db/insert
+content-type: application/json
+
+{
+    "tableName": "OBRAS",
+    "params": {
+        "bairro": "Vargem Grande",
+        "logradouro": "Alagoa",
+        "cidade": "Teresópolis",
+        "estado": "RJ",
+        "telefoneFixo": "(21)99852-8453"
+        }
+}
+###
+POST http://192.168.1.10:3333/db/insert
+content-type: application/json
+
+{
+    "tableName": "FUNCAO",
+    "params": {
+        "nomeFuncao": "Ajudante"
+        }
+}
+
+###
+POST http://192.168.1.10:3333/db/insert
+content-type: application/json
+
+{
+    "tableName": "FUNCIONARIOS",
+    "params": {
+        "nome": "Joaquim da silva",
+        "situacao": 1,        
+        "cpf": "111.111.111-11",
+        "nascimento": 333,
+        "funcaoId": 1,
+        "obraId": 1,
+        "empresaId": 1,                
+        "telefoneFixo": "31-3827-2540",
+        "telefoneCelular": "31-3827-2540",
+        "email": "csadas@gmail.com",
+        "apelido": "casa",
+        "foto": "asdasdasdas.png"   
+    }
+}
+
+###
+POST http://192.168.1.10:3333/db/read
+content-type: application/json
+
+{
+    "tableName": "FUNCIONARIOS"
+}
+
+###
+POST http://192.168.1.10:3333/db/read
+content-type: application/json
+
+{
+    "tableName": "FUNCIONARIOS",
+       "params": {
+         "cpf": "111.111.111-11"
+    }
+}
