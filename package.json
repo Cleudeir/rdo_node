@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "docker-compose up -d && nodemon src/index.ts",
+    "dev": "docker-compose down && docker-compose up -d && nodemon src/index.ts",
     "start": "rm -rf dist && sucrase ./src -d ./dist --transforms typescript,imports && node ./dist/index"
   },
   "keywords": [],
