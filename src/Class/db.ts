@@ -6,12 +6,13 @@ type obj = {
     [key: string]: any;
 };
 
+
 class db {
     public mysql: Promise<mysql.Connection>
     public constructor() {
         this.mysql = this.mysqlConnect()
     }
-    public async mysqlConnect() {
+    private async mysqlConnect() {
         const connection = await mysql.createConnection({
             host: process.env.HOST_MYQL,
             port: Number(process.env.PORT_MYQL),
@@ -28,6 +29,15 @@ class db {
             return error;
         }
     }
+    private async sendQuery(queryString: string): Promise<obj> {
+        try {
+            const result = await (await this.mysql).query(queryString)
+            return result[0]
+        } catch (error) {
+            console.log(error)
+            return error
+        }
+    }
     public async insert(tableName: string, params: obj): Promise<obj> {
         let column: string = '';
         let value: string = '';
@@ -37,19 +47,8 @@ class db {
         }
         column = column.slice(0, -1);
         value = value.slice(0, -1);
-        const queryString = `
-              INSERT INTO ${tableName.toLocaleUpperCase()}
-              (${column})
-              VALUES
-              (${value});`;
-        try {
-            const result = await (await this.mysql).query(queryString)
-            console.log(`Valores inseridos na tabela ${tableName}`);
-            return result[0]
-        } catch (error) {
-            console.log(error)
-            return error
-        }
+        const queryString = `INSERT INTO ${tableName.toLocaleUpperCase()}(${column}) VALUES (${value});`;
+        return await this.sendQuery(queryString)
     }
     public async read(tableName: string, filter?: obj): Promise<obj> {
         let where: string = '';
@@ -59,14 +58,9 @@ class db {
             }
         }
         const queryString = `SELECT * FROM ${tableName.toLocaleUpperCase()} ${where};`;
-        try {
-            const result = await (await this.mysql).query(queryString)
-            return result[0]
-        } catch (error) {
-            console.log(error)
-            return error
-        }
+        return await this.sendQuery(queryString)
     }
+    
 }
 
 export default new db()

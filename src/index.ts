@@ -7,7 +7,6 @@ type obj = {
 server.post('/db/insert', async (req, res) => {
     const tableName: string = req.body.tableName as string
     const params: obj = req.body.params as obj
-
     const result = await db.insert(tableName, params)
     return res.send(result)
 })
