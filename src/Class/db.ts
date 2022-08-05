@@ -50,17 +50,22 @@ class db {
         const queryString = `INSERT INTO ${tableName.toLocaleUpperCase()}(${column}) VALUES (${value});`;
         return await this.sendQuery(queryString)
     }
-    public async read(tableName: string, filter?: obj): Promise<obj> {
+    public async read(tableName: string, item?: string, value?: string): Promise<obj> {
         let where: string = '';
-        if (filter !== undefined) {
-            for (const key in filter) {
-                where = `where ${key} = "${String(filter[key]).toLocaleLowerCase()}"`
-            }
+        if (item !== undefined && value !== undefined) {
+            where = `where ${item} = "${String(value).toLocaleLowerCase()}"`
         }
         const queryString = `SELECT * FROM ${tableName.toLocaleUpperCase()} ${where};`;
+        console.log(queryString);
+        const result: obj = (await this.sendQuery(queryString))[0] || {}
+        return result
+    }
+    public async update(tableName: string, itemUpdate: string, valueUpdate: string, itemReference: string, valueReference: string): Promise<obj> {
+        const queryString = `UPDATE ${tableName.toLocaleUpperCase()} 
+        SET ${itemUpdate} = "${String(valueUpdate).toLocaleLowerCase()}" 
+        WHERE (${itemReference} = ${String(valueReference)});`;
         return await this.sendQuery(queryString)
     }
-    
 }
 
 export default new db()
