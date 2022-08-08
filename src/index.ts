@@ -21,7 +21,6 @@ server.post('/db/read', async (req, res) => {
     console.log(tableName, item, value)
     if (tableName) {
         const result = await db.read(tableName, item, value)
-        console.log(result);
         return res.send(result)
     }
     return res.send("error: use {tableName: string, item?: string, value?: string}")

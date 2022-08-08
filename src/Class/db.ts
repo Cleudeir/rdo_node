@@ -18,7 +18,7 @@ class db {
             port: Number(process.env.PORT_MYSQL),
             user: process.env.USER_MYSQL,
             password: process.env.PASSWORD_MYSQL,
-            database: 'mydb',
+            database: process.env.DATABASE_MYSQL,
         });
         try {
             await connection.connect();
@@ -31,11 +31,13 @@ class db {
     }
     private async sendQuery(queryString: string): Promise<obj> {
         try {
-            const result = await (await this.mysql).query(queryString)
+            const [result] : any[] = await (await this.mysql).query(queryString)
+            if(result.length  === 0 ){
+                return {sqlMessage:"Usuário não cadastrado"}
+            }
             return result[0]
         } catch (error) {
-            console.log(error)
-            return error
+            return {sqlMessage: error.sqlMessage}
         }
     }
     public async insert(tableName: string, params: obj): Promise<obj> {
@@ -56,8 +58,9 @@ class db {
             where = `where ${item} = "${String(value).toLocaleLowerCase()}"`
         }
         const queryString = `SELECT * FROM ${tableName.toLocaleUpperCase()} ${where};`;
-        console.log(queryString);
-        const result: obj = (await this.sendQuery(queryString))[0]
+        
+        const result: obj = (await this.sendQuery(queryString))
+        console.log('result: ',result);
         return result
     }
     public async update(tableName: string, itemUpdate: string, valueUpdate: string, itemReference: string, valueReference: string): Promise<obj> {
