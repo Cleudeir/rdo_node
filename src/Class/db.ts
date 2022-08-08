@@ -57,7 +57,7 @@ class db {
         }
         const queryString = `SELECT * FROM ${tableName.toLocaleUpperCase()} ${where};`;
         console.log(queryString);
-        const result: obj = (await this.sendQuery(queryString))[0] || {}
+        const result: obj = (await this.sendQuery(queryString))[0]
         return result
     }
     public async update(tableName: string, itemUpdate: string, valueUpdate: string, itemReference: string, valueReference: string): Promise<obj> {
