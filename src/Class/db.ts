@@ -14,10 +14,10 @@ class db {
     }
     private async mysqlConnect() {
         const connection = await mysql.createConnection({
-            host: process.env.HOST_MYQL,
-            port: Number(process.env.PORT_MYQL),
-            user: process.env.USER_MYQL,
-            password: process.env.PASSWORD_MYQL,
+            host: process.env.HOST_MYSQL,
+            port: Number(process.env.PORT_MYSQL),
+            user: process.env.USER_MYSQL,
+            password: process.env.PASSWORD_MYSQL,
             database: 'mydb',
         });
         try {
