@@ -13,13 +13,15 @@ class db {
         this.mysql = this.mysqlConnect()
     }
     private async mysqlConnect() {
-        const connection = await mysql.createConnection({
+        const config = {
             host: process.env.HOST_MYSQL,
             port: Number(process.env.PORT_MYSQL),
             user: process.env.USER_MYSQL,
             password: process.env.PASSWORD_MYSQL,
             database: process.env.DATABASE_MYSQL,
-        });
+        }
+        console.log(config);
+        const connection = await mysql.createConnection(config);
         try {
             await connection.connect();
             console.log("conectado ao banco de dados")
