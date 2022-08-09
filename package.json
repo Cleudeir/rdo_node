@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "sudo docker compose up -d && nodemon src/index.ts",
-    "start": "rm -rf dist && sucrase ./src -d ./dist --transforms typescript,imports && node ./dist/index"
+    "start": "sudo docker compose up -d && nodemon src/index.ts",
+    "build": "rm -rf dist && sucrase ./src -d ./dist --transforms typescript,imports && node ./dist/index"
   },
   "keywords": [],
   "author": "",

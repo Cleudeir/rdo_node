@@ -10,7 +10,10 @@ type obj = {
 class db {
     public mysql: Promise<mysql.Connection>
     public constructor() {
-        this.mysql = this.mysqlConnect()
+        setTimeout(() =>{
+            this.mysql = this.mysqlConnect()
+        },10000);
+        
     }
     private async mysqlConnect() {
         const config = {
