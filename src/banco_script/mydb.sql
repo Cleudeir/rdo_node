@@ -303,7 +303,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`USUARIOS` (
   `name` VARCHAR(45) NULL,
   `photoUrl` VARCHAR(100) NULL,
   `email` VARCHAR(45) NULL,
-  `permission` VARCHAR(12) NULL DEFAULT '3',
+  `permission` VARCHAR(12) NULL DEFAULT '[3]',
   UNIQUE INDEX `id_UNIQUE` (`uid` ASC) VISIBLE,
   PRIMARY KEY (`uid`))
 ENGINE = InnoDB;

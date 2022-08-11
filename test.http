@@ -70,7 +70,7 @@ content-type: application/json
         "name": "test",
         "photoUrl": "",
         "email":"test@test.com",
-        "permission": "0"
+        "permission": "0,1,2,3"
     }
 }
 
