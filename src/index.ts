@@ -7,7 +7,7 @@ type obj = {
 server.post('/db/insert', async (req, res) => {
     const tableName: string = req.body.tableName as string
     const params: obj = req.body.params as obj
-    console.log(tableName, params)
+    console.log('EXPO_NODE: ',tableName, params)
     if (tableName && params) {
         const result = await db.insert(tableName, params)
         return res.send(result)
@@ -18,7 +18,7 @@ server.post('/db/read', async (req, res) => {
     const tableName: string = req.body.tableName as string
     const item: string = req.body.item as string
     const value: string = req.body.value as string
-    console.log(tableName, item, value)
+    console.log('EXPO_NODE: ',tableName, item, value)
     if (tableName) {
         const result = await db.read(tableName, item, value)
         return res.send(result)

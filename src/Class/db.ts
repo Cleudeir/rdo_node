@@ -30,7 +30,7 @@ class db {
             console.log("conectado ao banco de dados")
             return connection;
         } catch (error) {
-            console.log(error)
+            console.log("CONECTAR BANCO DE DADOS: " + error)
             return error;
         }
     }
@@ -42,7 +42,7 @@ class db {
             }
             return result[0]
         } catch (error) {
-            return {sqlMessage: error.sqlMessage}
+            return {sqlMessage: "FETCH SERVER " + error.sqlMessage}
         }
     }
     public async insert(tableName: string, params: obj): Promise<obj> {
