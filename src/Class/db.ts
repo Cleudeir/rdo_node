@@ -8,12 +8,13 @@ type obj = {
 
 
 class db {
+
+    countErrors: number;
     public mysql: Promise<mysql.Connection>
+
     public constructor() {
-        setTimeout(() =>{
-            this.mysql = this.mysqlConnect()
-        },10000);
-        
+        this.countErrors = 0
+        this.mysql = this.mysqlConnect()  
     }
     private async mysqlConnect() {
         const config = {
@@ -23,14 +24,25 @@ class db {
             password: process.env.PASSWORD_MYSQL,
             database: process.env.DATABASE_MYSQL,
         }
-        console.log(config);
-        const connection = await mysql.createConnection(config);
+        let connection:any 
+        try {
+            connection = await mysql.createConnection(config);
+        } catch (error) {
+            if(this.countErrors < 10){
+                setTimeout(() => { this.countErrors+=1 ; this.mysqlConnect()} , 10000);
+            }            
+            console.log("CONECTAR BANCO DE DADOS: " + error) 
+            return error;
+        }
         try {
             await connection.connect();
             console.log("conectado ao banco de dados")
             return connection;
         } catch (error) {
-            console.log("CONECTAR BANCO DE DADOS: " + error)
+            console.log("CONECTAR BANCO DE DADOS: " + error) 
+            if(this.countErrors < 10){
+                setTimeout(() => { this.countErrors+=1 ; this.mysqlConnect()} , 10000);
+            }         
             return error;
         }
     }
