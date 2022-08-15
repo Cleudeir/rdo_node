@@ -27,6 +27,13 @@ content-type: application/json
         }
 }
 ###
+POST http://192.168.1.10:3333/db/read
+content-type: application/json
+
+{
+    "tableName": "OBRAS"
+}
+###
 POST http://192.168.1.10:3333/db/insert
 content-type: application/json
 

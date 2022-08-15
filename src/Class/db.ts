@@ -47,15 +47,7 @@ class db {
         }
     }
     private async sendQuery(queryString: string): Promise<obj> {
-        try {
-            const [result] : any[] = await (await this.mysql).query(queryString)
-            if(result.length  === 0 ){
-                return {sqlMessage:"Usuário não cadastrado"}
-            }
-            return result[0]
-        } catch (error) {
-            return {sqlMessage: "FETCH SERVER " + error.sqlMessage}
-        }
+       
     }
     public async insert(tableName: string, params: obj): Promise<obj> {
         let column: string = '';
@@ -67,7 +59,12 @@ class db {
         column = column.slice(0, -1);
         value = value.slice(0, -1);
         const queryString = `INSERT INTO ${tableName.toLocaleUpperCase()}(${column}) VALUES (${value});`;
-        return await this.sendQuery(queryString)
+        try {
+            const [result] : any[] = await (await this.mysql).query(queryString)
+            return result
+        } catch (error) {
+            return {sqlMessage: error.sqlMessage}
+        }
     }
     public async read(tableName: string, item?: string, value?: string): Promise<obj> {
         let where: string = '';
@@ -76,9 +73,15 @@ class db {
         }
         const queryString = `SELECT * FROM ${tableName.toLocaleUpperCase()} ${where};`;
         
-        const result: obj = (await this.sendQuery(queryString))
-        console.log('result: ',result);
-        return result
+        try {
+            const [result] : any[] = await (await this.mysql).query(queryString)
+            if(result.length  === 0 ){
+                return {sqlMessage:"Usuário não cadastrado"}
+            }
+            return result
+        } catch (error) {
+            return {sqlMessage: error.sqlMessage}
+        }
     }
     public async update(tableName: string, itemUpdate: string, valueUpdate: string, itemReference: string, valueReference: string): Promise<obj> {
         const queryString = `UPDATE ${tableName.toLocaleUpperCase()} 

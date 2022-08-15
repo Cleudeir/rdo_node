@@ -10,6 +10,7 @@ server.post('/db/insert', async (req, res) => {
     console.log('EXPO_NODE: ',tableName, params)
     if (tableName && params) {
         const result = await db.insert(tableName, params)
+        console.log(result)
         return res.send(result)
     }
     return res.send("error: use {tableName: string, params: obj}")
