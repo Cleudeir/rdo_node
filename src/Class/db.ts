@@ -84,7 +84,15 @@ class db {
         const queryString = `UPDATE ${tableName.toLocaleUpperCase()} 
         SET ${itemUpdate} = "${String(valueUpdate).toLocaleLowerCase()}" 
         WHERE (${itemReference} = ${String(valueReference)});`;
-        return await this.sendQuery(queryString)
+        try {
+            const [result] : any[] = await (await this.mysql).query(queryString)
+            if(result.length  === 0 ){
+                return {sqlMessage:"Nada encontrado"}
+            }
+            return result
+        } catch (error) {
+            return {sqlMessage: error.sqlMessage}
+        }
     }
 }
 
