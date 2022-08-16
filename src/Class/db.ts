@@ -46,9 +46,6 @@ class db {
             return error;
         }
     }
-    private async sendQuery(queryString: string): Promise<obj> {
-       
-    }
     public async insert(tableName: string, params: obj): Promise<obj> {
         let column: string = '';
         let value: string = '';
@@ -76,7 +73,7 @@ class db {
         try {
             const [result] : any[] = await (await this.mysql).query(queryString)
             if(result.length  === 0 ){
-                return {sqlMessage:"Usuário não cadastrado"}
+                return {sqlMessage:"Nada encontrado"}
             }
             return result
         } catch (error) {
