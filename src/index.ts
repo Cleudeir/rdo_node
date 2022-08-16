@@ -15,6 +15,17 @@ server.post('/db/insert', async (req, res) => {
     }
     return res.send("error: use {tableName: string, params: obj}")
 })
+server.post('/db/update', async (req, res) => {
+    const tableName: string = req.body.tableName as string
+    const params: obj = req.body.params as obj
+    console.log('EXPO_NODE: ',tableName, params)
+    if (tableName && params) {
+        const result = await db.update(tableName, params)
+        console.log(result)
+        return res.send(result)
+    }
+    return res.send("error: use {tableName: string, params: obj}")
+})
 server.post('/db/read', async (req, res) => {
     const tableName: string = req.body.tableName as string
     const item: string = req.body.item as string

@@ -80,17 +80,36 @@ class db {
             return {sqlMessage: error.sqlMessage}
         }
     }
-    public async update(tableName: string, itemUpdate: string, valueUpdate: string, itemReference: string, valueReference: string): Promise<obj> {
-        const queryString = `UPDATE ${tableName.toLocaleUpperCase()} 
-        SET ${itemUpdate} = "${String(valueUpdate).toLocaleLowerCase()}" 
-        WHERE (${itemReference} = ${String(valueReference)});`;
+    public async update(tableName: string, params: obj): Promise<obj> {            
+        let queryString = `UPDATE mydb.${tableName.toLocaleUpperCase()} SET` 
+        
+        let count = 0;
+        for (const key in params) {
+            if (Object.prototype.hasOwnProperty.call(params, key)) {                        
+                if(count > 0 && count < Object.keys(params).length - 1) {
+                    queryString +=` ${key} = "${String(params[key]).toLocaleLowerCase()}",`;
+                } else if(count === Object.keys(params).length -1 ){
+                    queryString +=` ${key} = "${String(params[key]).toLocaleLowerCase()}" `;
+                }
+                count++
+            }}
+        count = 0;
+        for (const key in params) {
+            if (Object.prototype.hasOwnProperty.call(params, key)) {                        
+                if(count === 0) {
+                    queryString = `${queryString.slice(0,-1)} WHERE (${key} = "${String(params[key]).toLocaleLowerCase()}");`;
+                }
+                count++
+            }}
+        console.log('queryString: ',queryString);
+        
         try {
             const [result] : any[] = await (await this.mysql).query(queryString)
             return result
         } catch (error) {
             return {sqlMessage: error.sqlMessage}
         }
-    }
+    }   
 }
 
 export default new db()
