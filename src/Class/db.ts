@@ -60,7 +60,10 @@ class db {
             const [result] : any[] = await (await this.mysql).query(queryString)
             return result
         } catch (error) {
-            return {sqlMessage: error.sqlMessage}
+            if(error.sqlMessage){
+                return {sqlMessage: error.sqlMessage}
+            }
+            return {sqlMessage: "Banco de dados offline"}
         }
     }
     public async read(tableName: string, item?: string, value?: string): Promise<obj> {
@@ -75,9 +78,15 @@ class db {
             if(result.length  === 0 ){
                 return {sqlMessage:"Nada encontrado"}
             }
+            if (Object.keys(console).length === 0) {
+                return {sqlMessage: "Nada encontrado"};
+              }
             return result
         } catch (error) {
-            return {sqlMessage: error.sqlMessage}
+            if(error.sqlMessage){
+                return {sqlMessage: error.sqlMessage}
+            }
+            return {sqlMessage: "Banco de dados offline"}
         }
     }
     public async update(tableName: string, params: obj): Promise<obj> {            
@@ -100,14 +109,15 @@ class db {
                     queryString = `${queryString.slice(0,-1)} WHERE (${key} = "${String(params[key]).toLocaleLowerCase()}");`;
                 }
                 count++
-            }}
-        console.log('queryString: ',queryString);
-        
+            }}        
         try {
             const [result] : any[] = await (await this.mysql).query(queryString)
             return result
         } catch (error) {
-            return {sqlMessage: error.sqlMessage}
+            if(error.sqlMessage){
+                return {sqlMessage: error.sqlMessage}
+            }
+            return {sqlMessage: "Banco de dados offline"}
         }
     }   
 }

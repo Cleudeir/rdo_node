@@ -15,6 +15,7 @@ server.post('/db/insert', async (req, res) => {
     }
     return res.send("error: use {tableName: string, params: obj}")
 })
+
 server.post('/db/update', async (req, res) => {
     const tableName: string = req.body.tableName as string
     const params: obj = req.body.params as obj
@@ -26,6 +27,7 @@ server.post('/db/update', async (req, res) => {
     }
     return res.send("error: use {tableName: string, params: obj}")
 })
+
 server.post('/db/read', async (req, res) => {
     const tableName: string = req.body.tableName as string
     const item: string = req.body.item as string
@@ -33,6 +35,7 @@ server.post('/db/read', async (req, res) => {
     console.log('EXPO_NODE: ',tableName, item, value)
     if (tableName) {
         const result = await db.read(tableName, item, value)
+        console.log(result)
         return res.send(result)
     }
     return res.send("error: use {tableName: string, item?: string, value?: string}")
