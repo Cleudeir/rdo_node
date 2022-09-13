@@ -8,20 +8,20 @@ SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
 
 -- -----------------------------------------------------
--- Schema mydb
+-- Schema DB_RDO
 -- -----------------------------------------------------
-DROP SCHEMA IF EXISTS `mydb` ;
+DROP SCHEMA IF EXISTS `DB_RDO` ;
 
 -- -----------------------------------------------------
--- Schema mydb
+-- Schema DB_RDO
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `mydb` DEFAULT CHARACTER SET utf8 ;
-USE `mydb` ;
+CREATE SCHEMA IF NOT EXISTS `DB_RDO` DEFAULT CHARACTER SET utf8 ;
+USE `DB_RDO` ;
 
 -- -----------------------------------------------------
--- Table `mydb`.`EMPRESAS`
+-- Table `DB_RDO`.`EMPRESAS`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`EMPRESAS` (
+CREATE TABLE IF NOT EXISTS `DB_RDO`.`EMPRESAS` (
   `empresaId` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `cnpj` VARCHAR(18) NOT NULL,
   `razaoSocial` VARCHAR(45) NOT NULL,
@@ -36,9 +36,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`OBRAS`
+-- Table `DB_RDO`.`OBRAS`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`OBRAS` (
+CREATE TABLE IF NOT EXISTS `DB_RDO`.`OBRAS` (
   `obraId` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `nome` VARCHAR(18) NOT NULL,
   `cep` VARCHAR(9) NOT NULL,
@@ -59,9 +59,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`FUNCAO`
+-- Table `DB_RDO`.`FUNCAO`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`FUNCAO` (
+CREATE TABLE IF NOT EXISTS `DB_RDO`.`FUNCAO` (
   `funcaoId` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `nomeFuncao` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`funcaoId`),
@@ -70,9 +70,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`FUNCIONARIOS`
+-- Table `DB_RDO`.`FUNCIONARIOS`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`FUNCIONARIOS` (
+CREATE TABLE IF NOT EXISTS `DB_RDO`.`FUNCIONARIOS` (
   `funcionarioId` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `nome` VARCHAR(45) NOT NULL,
   `situacao` TINYINT NULL,
@@ -94,26 +94,26 @@ CREATE TABLE IF NOT EXISTS `mydb`.`FUNCIONARIOS` (
   UNIQUE INDEX `funcionarioId_UNIQUE` (`funcionarioId` ASC) VISIBLE,
   CONSTRAINT `fk_FUNCIONARIOS_OBRAS1`
     FOREIGN KEY (`obraId`)
-    REFERENCES `mydb`.`OBRAS` (`obraId`)
+    REFERENCES `DB_RDO`.`OBRAS` (`obraId`)
     ON DELETE NO ACTION
     ON UPDATE CASCADE,
   CONSTRAINT `fk_FUNCIONARIOS_EMPRESAS1`
     FOREIGN KEY (`empresaId`)
-    REFERENCES `mydb`.`EMPRESAS` (`empresaId`)
+    REFERENCES `DB_RDO`.`EMPRESAS` (`empresaId`)
     ON DELETE NO ACTION
     ON UPDATE CASCADE,
   CONSTRAINT `fk_FUNCIONARIOS_FUNCAO1`
     FOREIGN KEY (`funcaoId`)
-    REFERENCES `mydb`.`FUNCAO` (`funcaoId`)
+    REFERENCES `DB_RDO`.`FUNCAO` (`funcaoId`)
     ON DELETE NO ACTION
     ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`CATEGORIA`
+-- Table `DB_RDO`.`CATEGORIA`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`CATEGORIA` (
+CREATE TABLE IF NOT EXISTS `DB_RDO`.`CATEGORIA` (
   `categoriaId` INT NOT NULL AUTO_INCREMENT,
   `nomeCategoria` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`categoriaId`),
@@ -122,9 +122,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`EQUIPAMENTOS`
+-- Table `DB_RDO`.`EQUIPAMENTOS`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`EQUIPAMENTOS` (
+CREATE TABLE IF NOT EXISTS `DB_RDO`.`EQUIPAMENTOS` (
   `equipamentoId` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `nomeEquipamento` VARCHAR(45) NOT NULL,
   `situacao` TINYINT NULL,
@@ -142,26 +142,26 @@ CREATE TABLE IF NOT EXISTS `mydb`.`EQUIPAMENTOS` (
   INDEX `fk_EQUIPAMENTOS_categoria1_idx` (`categoriaId` ASC) VISIBLE,
   CONSTRAINT `fk_EQUIPAMENTOS_EMPRESAS1`
     FOREIGN KEY (`empresaId`)
-    REFERENCES `mydb`.`EMPRESAS` (`empresaId`)
+    REFERENCES `DB_RDO`.`EMPRESAS` (`empresaId`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_EQUIPAMENTOS_OBRAS1`
     FOREIGN KEY (`obraId`)
-    REFERENCES `mydb`.`OBRAS` (`obraId`)
+    REFERENCES `DB_RDO`.`OBRAS` (`obraId`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_EQUIPAMENTOS_categoria1`
     FOREIGN KEY (`categoriaId`)
-    REFERENCES `mydb`.`CATEGORIA` (`categoriaId`)
+    REFERENCES `DB_RDO`.`CATEGORIA` (`categoriaId`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`OBRAS_EMPRESAS`
+-- Table `DB_RDO`.`OBRAS_EMPRESAS`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`OBRAS_EMPRESAS` (
+CREATE TABLE IF NOT EXISTS `DB_RDO`.`OBRAS_EMPRESAS` (
   `obraId` INT UNSIGNED NOT NULL,
   `empresaId` INT UNSIGNED NOT NULL,
   `situacao` TINYINT NULL,
@@ -170,21 +170,21 @@ CREATE TABLE IF NOT EXISTS `mydb`.`OBRAS_EMPRESAS` (
   INDEX `fk_OBRAS_has_EMPRESAS_OBRAS1_idx` (`obraId` ASC) VISIBLE,
   CONSTRAINT `fk_OBRAS_has_EMPRESAS_OBRAS1`
     FOREIGN KEY (`obraId`)
-    REFERENCES `mydb`.`OBRAS` (`obraId`)
+    REFERENCES `DB_RDO`.`OBRAS` (`obraId`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_OBRAS_has_EMPRESAS_EMPRESAS1`
     FOREIGN KEY (`empresaId`)
-    REFERENCES `mydb`.`EMPRESAS` (`empresaId`)
+    REFERENCES `DB_RDO`.`EMPRESAS` (`empresaId`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`FRENTES`
+-- Table `DB_RDO`.`FRENTES`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`FRENTES` (
+CREATE TABLE IF NOT EXISTS `DB_RDO`.`FRENTES` (
   `frenteId` INT NOT NULL AUTO_INCREMENT,
   `nome` VARCHAR(20) NULL,
   `localizacao` VARCHAR(30) NULL,
@@ -194,16 +194,16 @@ CREATE TABLE IF NOT EXISTS `mydb`.`FRENTES` (
   INDEX `fk_frente_OBRAS1_idx` (`obraId` ASC) VISIBLE,
   CONSTRAINT `fk_frente_OBRAS1`
     FOREIGN KEY (`obraId`)
-    REFERENCES `mydb`.`OBRAS` (`obraId`)
+    REFERENCES `DB_RDO`.`OBRAS` (`obraId`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`RDO_FUNCIONARIOS`
+-- Table `DB_RDO`.`RDO_FUNCIONARIOS`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`RDO_FUNCIONARIOS` (
+CREATE TABLE IF NOT EXISTS `DB_RDO`.`RDO_FUNCIONARIOS` (
   `rdoId` INT NOT NULL AUTO_INCREMENT,
   `descricao` VARCHAR(45) NULL,
   `dataInicio` BIGINT NULL,
@@ -217,26 +217,26 @@ CREATE TABLE IF NOT EXISTS `mydb`.`RDO_FUNCIONARIOS` (
   INDEX `fk_RDO_FUNCIONARIOS_FUNCIONARIOS1_idx` (`funcionarioId` ASC) VISIBLE,
   CONSTRAINT `fk_RDO_FUNCIONARIOS_OBRAS1`
     FOREIGN KEY (`obraId`)
-    REFERENCES `mydb`.`OBRAS` (`obraId`)
+    REFERENCES `DB_RDO`.`OBRAS` (`obraId`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_RDO_FUNCIONARIOS_frente1`
     FOREIGN KEY (`frenteId`)
-    REFERENCES `mydb`.`FRENTES` (`frenteId`)
+    REFERENCES `DB_RDO`.`FRENTES` (`frenteId`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_RDO_FUNCIONARIOS_FUNCIONARIOS1`
     FOREIGN KEY (`funcionarioId`)
-    REFERENCES `mydb`.`FUNCIONARIOS` (`funcionarioId`)
+    REFERENCES `DB_RDO`.`FUNCIONARIOS` (`funcionarioId`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`RDO_EQUIPAMENTOS`
+-- Table `DB_RDO`.`RDO_EQUIPAMENTOS`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`RDO_EQUIPAMENTOS` (
+CREATE TABLE IF NOT EXISTS `DB_RDO`.`RDO_EQUIPAMENTOS` (
   `rdoId` INT NOT NULL AUTO_INCREMENT,
   `descricao` VARCHAR(45) NULL,
   `dataInicio` BIGINT NULL,
@@ -254,31 +254,31 @@ CREATE TABLE IF NOT EXISTS `mydb`.`RDO_EQUIPAMENTOS` (
   INDEX `fk_RDO_EQUIPAMENTO_FUNCIONARIOS1_idx` (`funcionarioId` ASC) VISIBLE,
   CONSTRAINT `fk_RDO_FUNCIONARIOS_OBRAS10`
     FOREIGN KEY (`obraId`)
-    REFERENCES `mydb`.`OBRAS` (`obraId`)
+    REFERENCES `DB_RDO`.`OBRAS` (`obraId`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_RDO_FUNCIONARIOS_frente10`
     FOREIGN KEY (`frenteId`)
-    REFERENCES `mydb`.`FRENTES` (`frenteId`)
+    REFERENCES `DB_RDO`.`FRENTES` (`frenteId`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_RDO_EQUIPAMENTO_EQUIPAMENTOS1`
     FOREIGN KEY (`equipamentoId`)
-    REFERENCES `mydb`.`EQUIPAMENTOS` (`equipamentoId`)
+    REFERENCES `DB_RDO`.`EQUIPAMENTOS` (`equipamentoId`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_RDO_EQUIPAMENTO_FUNCIONARIOS1`
     FOREIGN KEY (`funcionarioId`)
-    REFERENCES `mydb`.`FUNCIONARIOS` (`funcionarioId`)
+    REFERENCES `DB_RDO`.`FUNCIONARIOS` (`funcionarioId`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`USUARIOS`
+-- Table `DB_RDO`.`USUARIOS`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`USUARIOS` (
+CREATE TABLE IF NOT EXISTS `DB_RDO`.`USUARIOS` (
   `uid` VARCHAR(30) NOT NULL,
   `nome` VARCHAR(45) NULL,
   `foto` VARCHAR(100) NULL,

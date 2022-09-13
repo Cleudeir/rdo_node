@@ -3,7 +3,7 @@ import cors from 'cors'
 import dotenv from 'dotenv';
 dotenv.config();
 
-class server {
+class Server {
     public express: express.Application
     public constructor() {
         this.express = express()
@@ -13,8 +13,8 @@ class server {
         this.express.use(express.json())
         this.express.use(cors())
         this.express.listen(process.env.PORT_EXPRESS, () => {
-            console.log(`iniciados na porta ${process.env.PORT_EXPRESS}`)
+            console.log(`iniciados na porta ${process.env.PORT_EXPRESS || 3335}`)
         })
     }
 }
-export default new server().express
+export default new Server().express

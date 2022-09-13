@@ -7,7 +7,8 @@
     "start": "nodemon src/index.ts",
     "dev": "docker start mysql",
     "init": "docker compose up",
-    "build": "rm -rf dist && sucrase ./src -d ./dist --transforms typescript,imports && node ./dist/index"
+    "build": "rm -rf dist && sucrase ./src -d ./dist --transforms typescript,imports && node ./dist/index",
+    "export": "sequelize-auto -h 192.168.1.245 -d DB_RDO -u username -x 7685 -p 3306 --dialect mariadb -o db_rdo"
   },
   "keywords": [],
   "author": "",
@@ -30,7 +31,9 @@
     "cors": "^2.8.5",
     "dotenv": "^16.0.1",
     "express": "^4.18.1",
+    "mariadb": "^3.0.1",
     "mysql2": "^2.3.3",
-    "sequelize": "^6.21.4"
+    "sequelize": "^6.21.4",
+    "sequelize-auto": "^0.8.8"
   }
 }
