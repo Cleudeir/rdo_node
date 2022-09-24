@@ -1,4 +1,4 @@
-POST http://192.168.1.10:3333/db/insert
+POST http://192.168.1.245:3335/db/insert
 content-type: application/json
 
 {
@@ -13,7 +13,7 @@ content-type: application/json
 }
 
 ###
-POST http://192.168.1.10:3333/db/insert
+POST http://192.168.1.245:3335/db/insert
 content-type: application/json
 
 {
@@ -27,14 +27,14 @@ content-type: application/json
         }
 }
 ###
-POST http://192.168.1.10:3333/db/read
+POST http://192.168.1.245:3335/db/read
 content-type: application/json
 
 {
     "tableName": "OBRAS"
 }
 ###
-POST http://192.168.1.10:3333/db/insert
+POST http://192.168.1.245:3335/db/insert
 content-type: application/json
 
 {
@@ -45,7 +45,7 @@ content-type: application/json
 }
 
 ###
-POST http://192.168.1.10:3333/db/insert
+POST http://192.168.1.245:3335/db/insert
 content-type: application/json
 
 {
@@ -67,7 +67,7 @@ content-type: application/json
 }
 
 ###
-POST http://192.168.1.10:3335/db/insert
+POST http://192.168.1.245:3335/db/insert
 content-type: application/json
 
 {
@@ -83,7 +83,7 @@ content-type: application/json
 }
 
 ###
-POST http://192.168.1.10:3335/db/read
+POST http://192.168.1.245:3335/db/read
 content-type: application/json
 
 {
