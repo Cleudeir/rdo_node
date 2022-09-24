@@ -9,7 +9,7 @@ Server.post('/db/insert', async (req, res) => {
     const params: obj = req.body.params as obj
     console.log('EXPO_NODE: ', tableName, params)
     if (tableName && params) {
-        const result = await Db.insert(tableName, params)
+        const result = await Db.insert(tableName.toLocaleUpperCase(), params)
         console.log(result)
         return res.send(result)
     }
@@ -21,7 +21,7 @@ Server.post('/db/update', async (req, res) => {
     const params: obj = req.body.params as obj
     console.log('EXPO_NODE: ', tableName, params)
     if (tableName && params) {
-        const result = await Db.update(tableName, params)
+        const result = await Db.update(tableName.toLocaleUpperCase(), params)
         console.log(result)
         return res.send(result)
     }

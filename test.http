@@ -67,22 +67,23 @@ content-type: application/json
 }
 
 ###
-POST http://192.168.1.10:3333/db/insert
+POST http://192.168.1.10:3335/db/insert
 content-type: application/json
 
 {
     "tableName": "USUARIOS",
     "params":{
-        "uid": "353lKvjVRYhu7mqrbdt2qCUfofW2",
+        "uid": "ygoT01gDlzWdpeUyx0HV0C6GH1q2",
         "name": "test",
         "photoUrl": "",
         "email":"test@test.com",
-        "permission": "0,1,2,3"
+        "permission": "0,1,2,3",
+        "situacao" : "1"
     }
 }
 
 ###
-POST http://192.168.1.10:3333/db/read
+POST http://192.168.1.10:3335/db/read
 content-type: application/json
 
 {

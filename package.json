@@ -8,7 +8,7 @@
     "dev": "docker start mysql",
     "init": "docker compose up",
     "build": "rm -rf dist && sucrase ./src -d ./dist --transforms typescript,imports && node ./dist/index",
-    "export": "sequelize-auto -h 192.168.1.245 -d DB_RDO -u username -x 7685 -p 3306 --dialect mariadb -o db_rdo"
+    "export": "sequelize-auto -h 192.168.1.245 -d mydb -u username -x 7685 -p 3306 --dialect mariadb -o db_rdo --useDefine -l ts"
   },
   "keywords": [],
   "author": "",

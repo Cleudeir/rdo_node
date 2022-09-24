@@ -1,7 +1,7 @@
 import dotenv from 'dotenv';
 dotenv.config();
 import { Sequelize, Model, DataTypes } from 'sequelize'
-import initModels from './db_rdo/init-models';
+import {initModels} from './db_rdo/init-models';
 
 type obj = {
     [key: string]: any;
@@ -18,16 +18,24 @@ const sequelize = new Sequelize(
     })
 
 class Db {
-    public tb: any
+    public tables: any
     public constructor() {
-        this.tb = initModels(sequelize)
+        this.tables = initModels(sequelize)
     }
     public async insert(tableName: string, params: obj): Promise<obj> {
-
+        const data = await this.tables[tableName].create(params);
+        return data
     }
-    public async read(tableName: string, item?: string, value?: string): Promise<obj> {
+
+    public async read(tableName: string, item: string, value: string): Promise<obj> {
+        const data = await this.tables[tableName].findAll({
+            where: {
+                [item]: value
+            }
+        });
+        return data
     }
     public async update(tableName: string, params: obj): Promise<obj> {
     }
 }
-export default new Db().tb
+export default new Db()
