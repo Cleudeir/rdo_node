@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon src/index.ts",
-    "dev": "docker start mysql",
+    "start": "node ./dist/index",
+    "dev": "nodemon src/index.ts",
     "init": "docker compose up",
     "build": "rm -rf dist && sucrase ./src -d ./dist --transforms typescript,imports && node ./dist/index",
     "export": "sequelize-auto -h 192.168.1.245 -d mydb -u username -x 7685 -p 3306 --dialect mariadb -o db_rdo --useDefine -l ts"

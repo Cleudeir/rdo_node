@@ -1,7 +1,7 @@
 import dotenv from 'dotenv';
 dotenv.config();
 import { Sequelize, Model, DataTypes } from 'sequelize'
-import {initModels} from './db_rdo/init-models';
+import { initModels } from './db_rdo/init-models';
 
 type obj = {
     [key: string]: any;
@@ -27,15 +27,31 @@ class Db {
         return data
     }
 
-    public async read(tableName: string, item: string, value: string): Promise<obj> {
-        const data = await this.tables[tableName].findAll({
-            where: {
-                [item]: value
-            }
-        });
+    public async read(tableName: string, item?: any, value?: string | undefined): Promise<obj> {
+        let data: obj = {}
+        const limit = 1000
+        if (!item && !value) {
+            data = await this.tables[tableName].findAll({
+                limit
+            });
+        } else {
+            data = await this.tables[tableName].findAll({
+                limit,
+                where: {
+                    [item]: value,
+                }
+            });
+        }
+
         return data
     }
-    public async update(tableName: string, params: obj): Promise<obj> {
+    public async update(tableName: string, params: obj, item: any, value: any): Promise<obj> {
+        const data = await this.tables[tableName].update(params,
+       { where: {
+            [item]: value,
+        }}
+        );
+        return data
     }
 }
 export default new Db()

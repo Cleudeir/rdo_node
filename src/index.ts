@@ -18,10 +18,12 @@ Server.post('/db/insert', async (req, res) => {
 
 Server.post('/db/update', async (req, res) => {
     const tableName: string = req.body.tableName as string
+    const item: string = req.body.item as string
+    const value: string = req.body.value as string
     const params: obj = req.body.params as obj
     console.log('EXPO_NODE: ', tableName, params)
     if (tableName && params) {
-        const result = await Db.update(tableName.toLocaleUpperCase(), params)
+        const result = await Db.update(tableName, params, item, value )
         console.log(result)
         return res.send(result)
     }
