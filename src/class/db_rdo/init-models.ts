@@ -21,6 +21,8 @@ import { RDO_FUNCIONARIOS as _RDO_FUNCIONARIOS } from "./RDO_FUNCIONARIOS";
 import type { RDO_FUNCIONARIOSAttributes, RDO_FUNCIONARIOSCreationAttributes } from "./RDO_FUNCIONARIOS";
 import { USUARIOS as _USUARIOS } from "./USUARIOS";
 import type { USUARIOSAttributes, USUARIOSCreationAttributes } from "./USUARIOS";
+import { USUARIOS_OBRAS as _USUARIOS_OBRAS } from "./USUARIOS_OBRAS";
+import type { USUARIOS_OBRASAttributes, USUARIOS_OBRASCreationAttributes } from "./USUARIOS_OBRAS";
 
 export {
   _CATEGORIA as CATEGORIA,
@@ -34,6 +36,7 @@ export {
   _RDO_EQUIPAMENTOS as RDO_EQUIPAMENTOS,
   _RDO_FUNCIONARIOS as RDO_FUNCIONARIOS,
   _USUARIOS as USUARIOS,
+  _USUARIOS_OBRAS as USUARIOS_OBRAS,
 };
 
 export type {
@@ -59,6 +62,8 @@ export type {
   RDO_FUNCIONARIOSCreationAttributes,
   USUARIOSAttributes,
   USUARIOSCreationAttributes,
+  USUARIOS_OBRASAttributes,
+  USUARIOS_OBRASCreationAttributes,
 };
 
 export function initModels(sequelize: Sequelize) {
@@ -73,57 +78,50 @@ export function initModels(sequelize: Sequelize) {
   const RDO_EQUIPAMENTOS = _RDO_EQUIPAMENTOS.initModel(sequelize);
   const RDO_FUNCIONARIOS = _RDO_FUNCIONARIOS.initModel(sequelize);
   const USUARIOS = _USUARIOS.initModel(sequelize);
+  const USUARIOS_OBRAS = _USUARIOS_OBRAS.initModel(sequelize);
 
   EMPRESAS.belongsToMany(OBRAS, { as: 'obraId_OBRAs', through: OBRAS_EMPRESAS, foreignKey: "empresaId", otherKey: "obraId" });
   EQUIPAMENTOS.belongsToMany(FUNCIONARIOS, { as: 'funcionarioId_FUNCIONARIOs', through: RDO_EQUIPAMENTOS, foreignKey: "equipamentoId", otherKey: "funcionarioId" });
   FUNCIONARIOS.belongsToMany(EQUIPAMENTOS, { as: 'equipamentoId_EQUIPAMENTOs', through: RDO_EQUIPAMENTOS, foreignKey: "funcionarioId", otherKey: "equipamentoId" });
   OBRAS.belongsToMany(EMPRESAS, { as: 'empresaId_EMPRESAs', through: OBRAS_EMPRESAS, foreignKey: "obraId", otherKey: "empresaId" });
-  EQUIPAMENTOS.belongsTo(CATEGORIA, { as: "categorium", foreignKey: "categoriaId" });
-  CATEGORIA.hasMany(EQUIPAMENTOS, { as: "EQUIPAMENTOs", foreignKey: "categoriaId" });
-  EQUIPAMENTOS.belongsTo(EMPRESAS, { as: "empresa", foreignKey: "empresaId" });
-  EMPRESAS.hasMany(EQUIPAMENTOS, { as: "EQUIPAMENTOs", foreignKey: "empresaId" });
-  FUNCIONARIOS.belongsTo(EMPRESAS, { as: "empresa", foreignKey: "empresaId" });
-  EMPRESAS.hasMany(FUNCIONARIOS, { as: "FUNCIONARIOs", foreignKey: "empresaId" });
-  OBRAS_EMPRESAS.belongsTo(EMPRESAS, { as: "empresa", foreignKey: "empresaId" });
-  EMPRESAS.hasMany(OBRAS_EMPRESAS, { as: "OBRAS_EMPRESAs", foreignKey: "empresaId" });
-  RDO_EQUIPAMENTOS.belongsTo(EQUIPAMENTOS, { as: "equipamento", foreignKey: "equipamentoId" });
-  EQUIPAMENTOS.hasMany(RDO_EQUIPAMENTOS, { as: "RDO_EQUIPAMENTOs", foreignKey: "equipamentoId" });
-  RDO_EQUIPAMENTOS.belongsTo(FRENTES, { as: "frente", foreignKey: "frenteId" });
-  FRENTES.hasMany(RDO_EQUIPAMENTOS, { as: "RDO_EQUIPAMENTOs", foreignKey: "frenteId" });
-  RDO_FUNCIONARIOS.belongsTo(FRENTES, { as: "frente", foreignKey: "frenteId" });
-  FRENTES.hasMany(RDO_FUNCIONARIOS, { as: "RDO_FUNCIONARIOs", foreignKey: "frenteId" });
-  FUNCIONARIOS.belongsTo(FUNCAO, { as: "funcao", foreignKey: "funcaoId" });
-  FUNCAO.hasMany(FUNCIONARIOS, { as: "FUNCIONARIOs", foreignKey: "funcaoId" });
-  RDO_EQUIPAMENTOS.belongsTo(FUNCIONARIOS, { as: "funcionario", foreignKey: "funcionarioId" });
-  FUNCIONARIOS.hasMany(RDO_EQUIPAMENTOS, { as: "RDO_EQUIPAMENTOs", foreignKey: "funcionarioId" });
-  RDO_FUNCIONARIOS.belongsTo(FUNCIONARIOS, { as: "funcionario", foreignKey: "funcionarioId" });
-  FUNCIONARIOS.hasMany(RDO_FUNCIONARIOS, { as: "RDO_FUNCIONARIOs", foreignKey: "funcionarioId" });
-  EQUIPAMENTOS.belongsTo(OBRAS, { as: "obra", foreignKey: "obraId" });
-  OBRAS.hasMany(EQUIPAMENTOS, { as: "EQUIPAMENTOs", foreignKey: "obraId" });
-  FRENTES.belongsTo(OBRAS, { as: "obra", foreignKey: "obraId" });
-  OBRAS.hasMany(FRENTES, { as: "FRENTEs", foreignKey: "obraId" });
-  FUNCIONARIOS.belongsTo(OBRAS, { as: "obra", foreignKey: "obraId" });
-  OBRAS.hasMany(FUNCIONARIOS, { as: "FUNCIONARIOs", foreignKey: "obraId" });
-  OBRAS_EMPRESAS.belongsTo(OBRAS, { as: "obra", foreignKey: "obraId" });
-  OBRAS.hasMany(OBRAS_EMPRESAS, { as: "OBRAS_EMPRESAs", foreignKey: "obraId" });
-  RDO_EQUIPAMENTOS.belongsTo(OBRAS, { as: "obra", foreignKey: "obraId" });
-  OBRAS.hasMany(RDO_EQUIPAMENTOS, { as: "RDO_EQUIPAMENTOs", foreignKey: "obraId" });
-  RDO_FUNCIONARIOS.belongsTo(OBRAS, { as: "obra", foreignKey: "obraId" });
-  OBRAS.hasMany(RDO_FUNCIONARIOS, { as: "RDO_FUNCIONARIOs", foreignKey: "obraId" });
-
-  const force = false
-
-  CATEGORIA.sync({ force })
-  EMPRESAS.sync({ force })
-  EQUIPAMENTOS.sync({ force })
-  FRENTES.sync({ force })
-  FUNCAO.sync({ force })
-  FUNCIONARIOS.sync({ force })
-  OBRAS.sync({ force })
-  OBRAS_EMPRESAS.sync({ force })
-  RDO_EQUIPAMENTOS.sync({ force })
-  RDO_FUNCIONARIOS.sync({ force })
-  USUARIOS.sync({ force })
+  OBRAS.belongsToMany(USUARIOS, { as: 'uid_USUARIOs', through: USUARIOS_OBRAS, foreignKey: "obraId", otherKey: "uid" });
+  USUARIOS.belongsToMany(OBRAS, { as: 'obraId_OBRAS_USUARIOS_OBRAs', through: USUARIOS_OBRAS, foreignKey: "uid", otherKey: "obraId" });
+  EQUIPAMENTOS.belongsTo(CATEGORIA, { as: "categorium", foreignKey: "categoriaId"});
+  CATEGORIA.hasMany(EQUIPAMENTOS, { as: "EQUIPAMENTOs", foreignKey: "categoriaId"});
+  EQUIPAMENTOS.belongsTo(EMPRESAS, { as: "empresa", foreignKey: "empresaId"});
+  EMPRESAS.hasMany(EQUIPAMENTOS, { as: "EQUIPAMENTOs", foreignKey: "empresaId"});
+  FUNCIONARIOS.belongsTo(EMPRESAS, { as: "empresa", foreignKey: "empresaId"});
+  EMPRESAS.hasMany(FUNCIONARIOS, { as: "FUNCIONARIOs", foreignKey: "empresaId"});
+  OBRAS_EMPRESAS.belongsTo(EMPRESAS, { as: "empresa", foreignKey: "empresaId"});
+  EMPRESAS.hasMany(OBRAS_EMPRESAS, { as: "OBRAS_EMPRESAs", foreignKey: "empresaId"});
+  RDO_EQUIPAMENTOS.belongsTo(EQUIPAMENTOS, { as: "equipamento", foreignKey: "equipamentoId"});
+  EQUIPAMENTOS.hasMany(RDO_EQUIPAMENTOS, { as: "RDO_EQUIPAMENTOs", foreignKey: "equipamentoId"});
+  RDO_EQUIPAMENTOS.belongsTo(FRENTES, { as: "frente", foreignKey: "frenteId"});
+  FRENTES.hasMany(RDO_EQUIPAMENTOS, { as: "RDO_EQUIPAMENTOs", foreignKey: "frenteId"});
+  RDO_FUNCIONARIOS.belongsTo(FRENTES, { as: "frente", foreignKey: "frenteId"});
+  FRENTES.hasMany(RDO_FUNCIONARIOS, { as: "RDO_FUNCIONARIOs", foreignKey: "frenteId"});
+  FUNCIONARIOS.belongsTo(FUNCAO, { as: "funcao", foreignKey: "funcaoId"});
+  FUNCAO.hasMany(FUNCIONARIOS, { as: "FUNCIONARIOs", foreignKey: "funcaoId"});
+  RDO_EQUIPAMENTOS.belongsTo(FUNCIONARIOS, { as: "funcionario", foreignKey: "funcionarioId"});
+  FUNCIONARIOS.hasMany(RDO_EQUIPAMENTOS, { as: "RDO_EQUIPAMENTOs", foreignKey: "funcionarioId"});
+  RDO_FUNCIONARIOS.belongsTo(FUNCIONARIOS, { as: "funcionario", foreignKey: "funcionarioId"});
+  FUNCIONARIOS.hasMany(RDO_FUNCIONARIOS, { as: "RDO_FUNCIONARIOs", foreignKey: "funcionarioId"});
+  EQUIPAMENTOS.belongsTo(OBRAS, { as: "obra", foreignKey: "obraId"});
+  OBRAS.hasMany(EQUIPAMENTOS, { as: "EQUIPAMENTOs", foreignKey: "obraId"});
+  FRENTES.belongsTo(OBRAS, { as: "obra", foreignKey: "obraId"});
+  OBRAS.hasMany(FRENTES, { as: "FRENTEs", foreignKey: "obraId"});
+  FUNCIONARIOS.belongsTo(OBRAS, { as: "obra", foreignKey: "obraId"});
+  OBRAS.hasMany(FUNCIONARIOS, { as: "FUNCIONARIOs", foreignKey: "obraId"});
+  OBRAS_EMPRESAS.belongsTo(OBRAS, { as: "obra", foreignKey: "obraId"});
+  OBRAS.hasMany(OBRAS_EMPRESAS, { as: "OBRAS_EMPRESAs", foreignKey: "obraId"});
+  RDO_EQUIPAMENTOS.belongsTo(OBRAS, { as: "obra", foreignKey: "obraId"});
+  OBRAS.hasMany(RDO_EQUIPAMENTOS, { as: "RDO_EQUIPAMENTOs", foreignKey: "obraId"});
+  RDO_FUNCIONARIOS.belongsTo(OBRAS, { as: "obra", foreignKey: "obraId"});
+  OBRAS.hasMany(RDO_FUNCIONARIOS, { as: "RDO_FUNCIONARIOs", foreignKey: "obraId"});
+  USUARIOS_OBRAS.belongsTo(OBRAS, { as: "obra", foreignKey: "obraId"});
+  OBRAS.hasMany(USUARIOS_OBRAS, { as: "USUARIOS_OBRAs", foreignKey: "obraId"});
+  USUARIOS_OBRAS.belongsTo(USUARIOS, { as: "uid_USUARIO", foreignKey: "uid"});
+  USUARIOS.hasMany(USUARIOS_OBRAS, { as: "USUARIOS_OBRAs", foreignKey: "uid"});
 
   return {
     CATEGORIA: CATEGORIA,
@@ -137,5 +135,6 @@ export function initModels(sequelize: Sequelize) {
     RDO_EQUIPAMENTOS: RDO_EQUIPAMENTOS,
     RDO_FUNCIONARIOS: RDO_FUNCIONARIOS,
     USUARIOS: USUARIOS,
+    USUARIOS_OBRAS: USUARIOS_OBRAS,
   };
 }

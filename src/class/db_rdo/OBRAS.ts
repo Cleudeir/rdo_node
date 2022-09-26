@@ -7,6 +7,8 @@ import type { FUNCIONARIOS, FUNCIONARIOSId } from './FUNCIONARIOS';
 import type { OBRAS_EMPRESAS, OBRAS_EMPRESASId } from './OBRAS_EMPRESAS';
 import type { RDO_EQUIPAMENTOS, RDO_EQUIPAMENTOSId } from './RDO_EQUIPAMENTOS';
 import type { RDO_FUNCIONARIOS, RDO_FUNCIONARIOSId } from './RDO_FUNCIONARIOS';
+import type { USUARIOS, USUARIOSId } from './USUARIOS';
+import type { USUARIOS_OBRAS, USUARIOS_OBRASId } from './USUARIOS_OBRAS';
 
 export interface OBRASAttributes {
   obraId: number;
@@ -126,6 +128,30 @@ export class OBRAS extends Model<OBRASAttributes, OBRASCreationAttributes> imple
   hasRDO_FUNCIONARIO!: Sequelize.HasManyHasAssociationMixin<RDO_FUNCIONARIOS, RDO_FUNCIONARIOSId>;
   hasRDO_FUNCIONARIOs!: Sequelize.HasManyHasAssociationsMixin<RDO_FUNCIONARIOS, RDO_FUNCIONARIOSId>;
   countRDO_FUNCIONARIOs!: Sequelize.HasManyCountAssociationsMixin;
+  // OBRAS belongsToMany USUARIOS via obraId and uid
+  uid_USUARIOs!: USUARIOS[];
+  getUid_USUARIOs!: Sequelize.BelongsToManyGetAssociationsMixin<USUARIOS>;
+  setUid_USUARIOs!: Sequelize.BelongsToManySetAssociationsMixin<USUARIOS, USUARIOSId>;
+  addUid_USUARIO!: Sequelize.BelongsToManyAddAssociationMixin<USUARIOS, USUARIOSId>;
+  addUid_USUARIOs!: Sequelize.BelongsToManyAddAssociationsMixin<USUARIOS, USUARIOSId>;
+  createUid_USUARIO!: Sequelize.BelongsToManyCreateAssociationMixin<USUARIOS>;
+  removeUid_USUARIO!: Sequelize.BelongsToManyRemoveAssociationMixin<USUARIOS, USUARIOSId>;
+  removeUid_USUARIOs!: Sequelize.BelongsToManyRemoveAssociationsMixin<USUARIOS, USUARIOSId>;
+  hasUid_USUARIO!: Sequelize.BelongsToManyHasAssociationMixin<USUARIOS, USUARIOSId>;
+  hasUid_USUARIOs!: Sequelize.BelongsToManyHasAssociationsMixin<USUARIOS, USUARIOSId>;
+  countUid_USUARIOs!: Sequelize.BelongsToManyCountAssociationsMixin;
+  // OBRAS hasMany USUARIOS_OBRAS via obraId
+  USUARIOS_OBRAs!: USUARIOS_OBRAS[];
+  getUSUARIOS_OBRAs!: Sequelize.HasManyGetAssociationsMixin<USUARIOS_OBRAS>;
+  setUSUARIOS_OBRAs!: Sequelize.HasManySetAssociationsMixin<USUARIOS_OBRAS, USUARIOS_OBRASId>;
+  addUSUARIOS_OBRA!: Sequelize.HasManyAddAssociationMixin<USUARIOS_OBRAS, USUARIOS_OBRASId>;
+  addUSUARIOS_OBRAs!: Sequelize.HasManyAddAssociationsMixin<USUARIOS_OBRAS, USUARIOS_OBRASId>;
+  createUSUARIOS_OBRA!: Sequelize.HasManyCreateAssociationMixin<USUARIOS_OBRAS>;
+  removeUSUARIOS_OBRA!: Sequelize.HasManyRemoveAssociationMixin<USUARIOS_OBRAS, USUARIOS_OBRASId>;
+  removeUSUARIOS_OBRAs!: Sequelize.HasManyRemoveAssociationsMixin<USUARIOS_OBRAS, USUARIOS_OBRASId>;
+  hasUSUARIOS_OBRA!: Sequelize.HasManyHasAssociationMixin<USUARIOS_OBRAS, USUARIOS_OBRASId>;
+  hasUSUARIOS_OBRAs!: Sequelize.HasManyHasAssociationsMixin<USUARIOS_OBRAS, USUARIOS_OBRASId>;
+  countUSUARIOS_OBRAs!: Sequelize.HasManyCountAssociationsMixin;
 
   static initModel(sequelize: Sequelize.Sequelize): typeof OBRAS {
     return sequelize.define('OBRAS', {

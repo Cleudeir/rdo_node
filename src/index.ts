@@ -1,5 +1,5 @@
-import Db from './Class/Db';
-import Server from './Class/Server';
+import Db from './class/Db';
+import Server from './class/Server';
 
 type obj = {
     [key: string]: any;

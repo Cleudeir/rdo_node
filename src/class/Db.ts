@@ -1,6 +1,6 @@
 import dotenv from 'dotenv';
 dotenv.config();
-import { Sequelize, Model, DataTypes } from 'sequelize'
+import { Sequelize } from 'sequelize'
 import { initModels } from './db_rdo/init-models';
 
 type obj = {
@@ -17,10 +17,31 @@ const sequelize = new Sequelize(
         port: Number(process.env.PORT_DB)
     })
 
+
+
 class Db {
     public tables: any
     public constructor() {
-        this.tables = initModels(sequelize)
+        this.tables = null
+        this.start()
+    }
+    public async start() {
+        const tables = initModels(sequelize)
+        const force = false
+       
+        await tables.CATEGORIA.sync({ force })
+        await tables.EMPRESAS.sync({ force })
+        await tables.OBRAS.sync({ force })
+        await tables.EQUIPAMENTOS.sync({ force })
+        await tables.FRENTES.sync({ force })
+        await tables.FUNCAO.sync({ force })
+        await tables.FUNCIONARIOS.sync({ force })       
+        await tables.USUARIOS.sync({ force })
+        await tables.OBRAS_EMPRESAS.sync({ force })
+        await tables.RDO_EQUIPAMENTOS.sync({ force })
+        await tables.RDO_FUNCIONARIOS.sync({ force })
+        await tables.USUARIOS_OBRAS.sync({ force })
+        this.tables = tables
     }
     public async insert(tableName: string, params: obj): Promise<obj> {
         const data = await this.tables[tableName].create(params);
@@ -47,9 +68,11 @@ class Db {
     }
     public async update(tableName: string, params: obj, item: any, value: any): Promise<obj> {
         const data = await this.tables[tableName].update(params,
-       { where: {
-            [item]: value,
-        }}
+            {
+                where: {
+                    [item]: value,
+                }
+            }
         );
         return data
     }

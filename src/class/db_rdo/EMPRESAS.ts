@@ -13,12 +13,11 @@ export interface EMPRESASAttributes {
   nomeResponsavel?: string;
   telefoneFixo?: string;
   telefoneCelular?: string;
-  obraId?: number;
 }
 
 export type EMPRESASPk = "empresaId";
 export type EMPRESASId = EMPRESAS[EMPRESASPk];
-export type EMPRESASOptionalAttributes = "empresaId" | "nomeFantasia" | "nomeResponsavel" | "telefoneFixo" | "telefoneCelular" | "obraId";
+export type EMPRESASOptionalAttributes = "empresaId" | "nomeFantasia" | "nomeResponsavel" | "telefoneFixo" | "telefoneCelular";
 export type EMPRESASCreationAttributes = Optional<EMPRESASAttributes, EMPRESASOptionalAttributes>;
 
 export class EMPRESAS extends Model<EMPRESASAttributes, EMPRESASCreationAttributes> implements EMPRESASAttributes {
@@ -29,7 +28,6 @@ export class EMPRESAS extends Model<EMPRESASAttributes, EMPRESASCreationAttribut
   nomeResponsavel?: string;
   telefoneFixo?: string;
   telefoneCelular?: string;
-  obraId?: number;
 
   // EMPRESAS hasMany EQUIPAMENTOS via empresaId
   EQUIPAMENTOs!: EQUIPAMENTOS[];
@@ -111,10 +109,6 @@ export class EMPRESAS extends Model<EMPRESASAttributes, EMPRESASCreationAttribut
     },
     telefoneCelular: {
       type: DataTypes.STRING(16),
-      allowNull: true
-    },
-    obraId: {
-      type: DataTypes.INTEGER,
       allowNull: true
     }
   }, {
