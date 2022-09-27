@@ -28,23 +28,34 @@ class Db {
     public async start() {
         const tables = initModels(sequelize)
         const force = false
-       
-        await tables.CATEGORIA.sync({ force })
+
+
         await tables.EMPRESAS.sync({ force })
         await tables.OBRAS.sync({ force })
-        await tables.EQUIPAMENTOS.sync({ force })
-        await tables.FRENTES.sync({ force })
         await tables.FUNCAO.sync({ force })
-        await tables.FUNCIONARIOS.sync({ force })       
-        await tables.USUARIOS.sync({ force })
+        await tables.FUNCIONARIOS.sync({ force })
+        await tables.CATEGORIA.sync({ force })
+        await tables.EQUIPAMENTOS.sync({ force })
         await tables.OBRAS_EMPRESAS.sync({ force })
-        await tables.RDO_EQUIPAMENTOS.sync({ force })
+        await tables.FRENTES.sync({ force })
         await tables.RDO_FUNCIONARIOS.sync({ force })
+        await tables.RDO_EQUIPAMENTOS.sync({ force })
+        await tables.USUARIOS.sync({ force })
         await tables.USUARIOS_OBRAS.sync({ force })
+
         this.tables = tables
     }
-    public async insert(tableName: string, params: obj): Promise<obj> {
-        const data = await this.tables[tableName].create(params);
+    public async insert(tableName: string, params: obj | obj[], updateOnDuplicate?: string[] | undefined): Promise<obj> {
+        let data: obj | obj[] = {}
+        if (params.length > 0) {
+            if (updateOnDuplicate) {
+                data = await this.tables[tableName].bulkCreate(params, { ignoreDuplicates: true, updateOnDuplicate, logging: false })
+            } else {
+                data = await this.tables[tableName].bulkCreate(params, { ignoreDuplicates: true, logging: false })
+            }
+        } else {
+            data = await this.tables[tableName].create(params);
+        }
         return data
     }
 
@@ -74,6 +85,21 @@ class Db {
                 }
             }
         );
+        return data
+    }
+    public async readPKincludes(tableName: string, itemPK: any, tableIncrement: string): Promise<obj> {
+        let data: obj = {}
+        const limit = 1000
+        console.log({ tableName, itemPK, tableIncrement })
+        data = await this.tables[tableName].findByPk(itemPK, {
+            include: [
+                {
+                    model: this.tables[tableIncrement],
+                    as: tableIncrement
+                },
+            ],
+        })
+
         return data
     }
 }
