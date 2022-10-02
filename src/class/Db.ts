@@ -47,8 +47,11 @@ class Db {
     }
     public async insert(tableName: string, params: obj | obj[], updateOnDuplicate?: string[] | undefined): Promise<obj> {
         let data: obj | obj[] = {}
+        if (params.length === 0) {
+            return { Error: "Params []" }
+        }
         if (params.length > 0) {
-            if (updateOnDuplicate) {
+            if (updateOnDuplicate != undefined && updateOnDuplicate.length > 0) {
                 data = await this.tables[tableName].bulkCreate(params, { ignoreDuplicates: true, updateOnDuplicate, logging: false })
             } else {
                 data = await this.tables[tableName].bulkCreate(params, { ignoreDuplicates: true, logging: false })
@@ -56,6 +59,18 @@ class Db {
         } else {
             data = await this.tables[tableName].create(params);
         }
+        return data
+    }
+
+    public async destroy(tableName: string, item?: any, value?: string): Promise<obj> {
+        let data: obj | obj[] = {}
+
+        data = await this.tables[tableName].destroy({
+            where: {
+                [item]: value
+            }
+        });
+
         return data
     }
 
@@ -72,6 +87,32 @@ class Db {
                 where: {
                     [item]: value,
                 }
+            });
+        }
+
+        return data
+    }
+    public async readAllIncludes(tableName: string, tableIncrement: string, attributes?: string[] | undefined): Promise<obj> {
+        let data: obj = {}
+        const limit = 1000
+        if (attributes && attributes.length > 0) {
+            data = await this.tables[tableName].findAll({
+                limit,
+                include: [{
+                    model: this.tables[tableIncrement],
+                    as: tableIncrement,
+                    attributes,
+                    raw: true,
+                }]
+            });
+        } else {
+            data = await this.tables[tableName].findAll({
+                limit,
+                include: [{
+                    model: this.tables[tableIncrement],
+                    as: tableIncrement,
+                    raw: true,
+                }]
             });
         }
 

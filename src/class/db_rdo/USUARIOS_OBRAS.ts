@@ -46,7 +46,7 @@ export class USUARIOS_OBRAS extends Model<USUARIOS_OBRASAttributes, USUARIOS_OBR
         model: 'OBRAS',
         key: 'obraId'
       }
-    }
+    },
   }, {
     tableName: 'USUARIOS_OBRAS',
     timestamps: false,
