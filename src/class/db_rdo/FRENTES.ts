@@ -6,10 +6,11 @@ import type { RDO_FUNCIONARIOS, RDO_FUNCIONARIOSId } from './RDO_FUNCIONARIOS';
 
 export interface FRENTESAttributes {
   frenteId: number;
+  situacao: string;
   nome?: string;
   localizacao?: string;
   obraId: number;
-  observacao?: string;
+  observacao?: string;  
 }
 
 export type FRENTESPk = "frenteId";
@@ -23,6 +24,7 @@ export class FRENTES extends Model<FRENTESAttributes, FRENTESCreationAttributes>
   localizacao?: string;
   obraId!: number;
   observacao?: string;
+  situacao!: string;
 
   // FRENTES hasMany RDO_EQUIPAMENTOS via frenteId
   RDO_EQUIPAMENTOs!: RDO_EQUIPAMENTOS[];
@@ -81,6 +83,10 @@ export class FRENTES extends Model<FRENTESAttributes, FRENTESCreationAttributes>
     observacao: {
       type: DataTypes.STRING(45),
       allowNull: true
+    },
+    situacao: {
+      type: DataTypes.STRING(7),
+      allowNull: false
     }
   }, {
     tableName: 'FRENTES',

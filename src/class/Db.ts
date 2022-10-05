@@ -29,7 +29,6 @@ class Db {
         const tables = initModels(sequelize)
         const force = false
 
-
         await tables.EMPRESAS.sync({ force })
         await tables.OBRAS.sync({ force })
         await tables.FUNCAO.sync({ force })

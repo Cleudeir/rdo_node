@@ -9,7 +9,7 @@ import type { RDO_EQUIPAMENTOS, RDO_EQUIPAMENTOSId } from './RDO_EQUIPAMENTOS';
 export interface EQUIPAMENTOSAttributes {
   equipamentoId: number;
   nomeEquipamento: string;
-  situacao?: number;
+  situacao: string;
   numeracao: number;
   anoFabricacao?: number;
   apelido?: string;
@@ -26,7 +26,7 @@ export type EQUIPAMENTOSCreationAttributes = Optional<EQUIPAMENTOSAttributes, EQ
 export class EQUIPAMENTOS extends Model<EQUIPAMENTOSAttributes, EQUIPAMENTOSCreationAttributes> implements EQUIPAMENTOSAttributes {
   equipamentoId!: number;
   nomeEquipamento!: string;
-  situacao?: number;
+  situacao: string;
   numeracao!: number;
   anoFabricacao?: number;
   apelido?: string;
@@ -87,8 +87,8 @@ export class EQUIPAMENTOS extends Model<EQUIPAMENTOSAttributes, EQUIPAMENTOSCrea
       allowNull: false
     },
     situacao: {
-      type: DataTypes.TINYINT,
-      allowNull: true
+      type: DataTypes.STRING(7),
+      allowNull: false
     },
     numeracao: {
       type: DataTypes.INTEGER.UNSIGNED,

@@ -6,7 +6,7 @@ import type { OBRAS, OBRASId } from './OBRAS';
 export interface OBRAS_EMPRESASAttributes {
   obraId: number;
   empresaId: number;
-  situacao?: number;
+  situacao: string;
 }
 
 export type OBRAS_EMPRESASPk = "obraId" | "empresaId";
@@ -17,7 +17,7 @@ export type OBRAS_EMPRESASCreationAttributes = Optional<OBRAS_EMPRESASAttributes
 export class OBRAS_EMPRESAS extends Model<OBRAS_EMPRESASAttributes, OBRAS_EMPRESASCreationAttributes> implements OBRAS_EMPRESASAttributes {
   obraId!: number;
   empresaId!: number;
-  situacao?: number;
+  situacao: string;
 
   // OBRAS_EMPRESAS belongsTo EMPRESAS via empresaId
   empresa!: EMPRESAS;
@@ -51,9 +51,9 @@ export class OBRAS_EMPRESAS extends Model<OBRAS_EMPRESASAttributes, OBRAS_EMPRES
       }
     },
     situacao: {
-      type: DataTypes.TINYINT,
-      allowNull: true
-    }
+      type: DataTypes.STRING(7),
+      allowNull: false
+    },
   }, {
     tableName: 'OBRAS_EMPRESAS',
     timestamps: false,
